@@ -42,6 +42,8 @@
 \usepackage[noadjust]{cite}
 \usepackage{xcolor}
 \usepackage[capitalize]{cleveref}
+\usepackage{nomencl}
+\makenomenclature
 
 \definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0} % Customize the RGB values if needed
 
@@ -61,7 +63,7 @@
 \author{
     Karan Mukhi,
     Georg Loho,
-    and Alessandro Abate%
+    and Alessandro Abate
     \thanks{K. Mukhi and A. Abate are with the Department of Computer Science, University of Oxford, UK}
     % , e-mail: \{karan.mukhi, alessandro.abate\}@cs.ox.ac.uk.}%
     \thanks{G. Loho is with the Department of Applied Mathematics, University of Twente, The Netherlands and the Department of Mathematics and Computer Science, FU Berlin, Germany}
@@ -93,6 +95,8 @@
 \input{./sections/5disaggregation.tex}
 \input{./sections/6case_studies.tex}
 \input{./sections/7conclusion.tex}
+
+\printnomenclature
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
