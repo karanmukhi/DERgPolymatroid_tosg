@@ -31,6 +31,7 @@ We also point the reviewer to [33] (https://arxiv.org/pdf/2504.00484), where we 
 There is also ongoing work to extend this to make the approximation error bounds tighter.
 
 2. A brief “no-go” statement for leakage: Right after Remark 4, It's better to add a short lemma (or clear pointer) explaining why the symmetry that yields the g-polymatroid edge directions breaks when \lambda\neq 1 or \eta^+\neq\eta^-. This might neatly mark the boundary of your theory.
+Thanks for this, we see Lemma 1.
    
 3. Spell out the oracle cost: You note the greedy step uses T{+}1 evaluations plus O(T\log T) sorting. Please also state the cost of computing b(\cdot) and p(\cdot) (per device and in aggregate), and how additivity lets you amortize over N. A tiny “cost vs. T,N” table would be great.
    
