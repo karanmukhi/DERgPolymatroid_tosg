@@ -1,119 +1,60 @@
-\section{Reviews}
-\subsection{Editor}
+Editor's Comments:
+
+Editor: 1
 Comments to the Author:
 This paper is reviewed by three experts. All the reviewers find this paper interesting and discuss an important topic, theoretically sound. However, there are many issues that need further clarification or explanation. The authors are suggested to fully address the concerns from the reviewers.
 
+Reviewers' Comments:
 
-\subsection{1}
-\sububsection{Review}
+Reviewer: 1
+
 Comments to the Author
 The manuscript handles an important topic, is very well structured and written, and presents very interesting results. There are, however, some issues that need to be addressed before publication:
 
-% 1. On page 4, after Definition 5, the authors state that "The cross inequality is equivalent to ensuring the base polyhedron of p is contained within the submodular polyhedron of b, and vice-versa." What exactly do you mean by "vice versa"? That the submodular polyhedron of b is also contained in the base polyhedron of p, such that they are equal? Furthermore, the definition of base polyhedron is only given later in Definition 7, so it would be good to either define it earlier or refer to Definition 7.
-% % 2. Fig. 2: The black dashed line almost not visible. It should be made more visible.
+1. On page 4, after Definition 5, the authors state that "The cross inequality is equivalent to ensuring the base polyhedron of p is contained within the submodular polyhedron of b, and vice-versa." What exactly do you mean by "vice versa"? That the submodular polyhedron of b is also contained in the base polyhedron of p, such that they are equal? Furthermore, the definition of base polyhedron is only given later in Definition 7, so it would be good to either define it earlier or refer to Definition 7.
+2. Fig. 2: The black dashed line almost not visible. It should be made more visible.
 3. On page 6, the authors state that "While other such simplifications are also possible, [...]". This is quite vague. It would be good to either state what these simplifications are or to give a reference to where they can be found.
-% 4. Theorem 3: As this follows directly from Theorem 2 and Theorem 1, it is more of a corollary than a theorem.
-
-
+4. Theorem 3: As this follows directly from Theorem 2 and Theorem 1, it is more of a corollary than a theorem.
 5. My main concern is with Section V Disaggregation. After Theorem 7 the authors state that "Solving the optimization problems from (17) described in the previous section will give an optimal solution in the form u^*_N = \sum_{j=1}^{T+1} \lambda^j v^{\pi_j}". However, in the description of how (17) is solved, there are no $\lambda^j$ and $v^{\pi_j}$ defined. So, how are these variables determined? It is clear from Theorem 6 and Corollary 1 that they exist, but how are they computed? This must be clarified.
-
-% 6. The paper would benefit from disclosing the code and data used for the numerical results, e. g., on a github repository. This would allow for better reproducibility and validation of the results presented.
-
-\sububsection{Actions 1}
-Minor \begin{itemize}
-    \item On page 4, after Definition 5, the authors state that "The cross inequality is equivalent to ensuring the base polyhedron of p is contained within the submodular polyhedron of b, and vice-versa." What exactly do you mean by "vice versa"? That the submodular polyhedron of b is also contained in the base polyhedron of p, such that they are equal? Furthermore, the definition of base polyhedron is only given later in Definition 7, so it would be good to either define it earlier or refer to Definition 
-    \item Fig. 2: The black dashed line almost not visible. It should be made more visible.
-    \item 4. Theorem 3: As this follows directly from Theorem 2 and Theorem 1, it is more of a corollary than a theorem.
-\end{itemize}
-
-
-3. On page 6, the authors state that "While other such simplifications are also possible, [...]". This is quite vague. It would be good to either state what these simplifications are or to give a reference to where they can be found.
-\texit{Discuss ESSs, defferable loads, devices with time dependent SoC constraints}
-
-5. My main concern is with Section V Disaggregation. After Theorem 7 the authors state that "Solving the optimization problems from (17) described in the previous section will give an optimal solution in the form u^*_N = \sum_{j=1}^{T+1} \lambda^j v^{\pi_j}". However, in the description of how (17) is solved, there are no $\lambda^j$ and $v^{\pi_j}$ defined. So, how are these variables determined? It is clear from Theorem 6 and Corollary 1 that they exist, but how are they computed? This must be clarified.
-
-6. Disaggregation and fairness in practice: After labeling vertices via \mathrm{Sym}(\tilde T), it's better to outline a practical routine to compute \lambda and \Pi (e.g., a small robust simplex over T{+}1 vertices). You can consider an optional fairness tie-break (min-deviation from baselines or lexicographic equity) so Theorem 7 is immediately usable.
-\textit{Talk through Datzig wolfe/frank wolfe decomposition}
-
 6. The paper would benefit from disclosing the code and data used for the numerical results, e. g., on a github repository. This would allow for better reproducibility and validation of the results presented.
-\texit{Share github}
 
-\sububsection{Response to Reviewers}
-
-
-\subsection{Reviewer: 2}
+Reviewer: 2
 
 Comments to the Author
 Minor comments
 
-% 1. When does exactness fail—and by how much: A small stress test on leaky/inefficient devices (\lambda<1, \eta^\pm<1) would be very helpful. Use the g-polymatroid "inner/outer" proxies you mention and report the optimality gap against a MILP ground truth as leakage increases. That would turn the assumptions around Eq. / Assump. (9) into concrete guidance.
+1. When does exactness fail—and by how much: A small stress test on leaky/inefficient devices (\lambda<1, \eta^\pm<1) would be very helpful. Use the g-polymatroid "inner/outer" proxies you mention and report the optimality gap against a MILP ground truth as leakage increases. That would turn the assumptions around Eq. / Assump. (9) into concrete guidance.
+
+We agree this is an important point, and we have added a subsection in the results part to this end. 
+[TODO] We will add a numerical result section to the paper to discuss this.
+We also point the reviewer to [33] (https://arxiv.org/pdf/2504.00484), where we discuss the case of leaky devices (\lambda<1), in depth and show the approximation error when using the g-polymatroid inner approximation.
+There is also ongoing work to extend this to make the approximation error bounds tighter.
+
+2. A brief “no-go” statement for leakage: Right after Remark 4, It's better to add a short lemma (or clear pointer) explaining why the symmetry that yields the g-polymatroid edge directions breaks when \lambda\neq 1 or \eta^+\neq\eta^-. This might neatly mark the boundary of your theory.
    
-% 2. A brief “no-go” statement for leakage: Right after Remark 4, It's better to add a short lemma (or clear pointer) explaining why the symmetry that yields the g-polymatroid edge directions breaks when \lambda\neq 1 or \eta^+\neq\eta^-. This might neatly mark the boundary of your theory.
+3. Spell out the oracle cost: You note the greedy step uses T{+}1 evaluations plus O(T\log T) sorting. Please also state the cost of computing b(\cdot) and p(\cdot) (per device and in aggregate), and how additivity lets you amortize over N. A tiny “cost vs. T,N” table would be great.
    
-% 3. Spell out the oracle cost: You note the greedy step uses T{+}1 evaluations plus O(T\log T) sorting. Please also state the cost of computing b(\cdot) and p(\cdot) (per device and in aggregate), and how additivity lets you amortize over N. A tiny “cost vs. T,N” table would be great.
+4. Make the separation-oracle view explicit: It would reassure readers to say plainly that you "do not" enumerate the 2^{|T|} facets. Connecting the greedy routine to a separation-oracle viewpoint might address scalability concerns up front.
    
-% 4. Make the separation-oracle view explicit: It would reassure readers to say plainly that you "do not" enumerate the 2^{|T|} facets. Connecting the greedy routine to a separation-oracle viewpoint might address scalability concerns up front.
+5. Nonlinear objectives—give a recipe: Since (17) may be nonlinear, please include 4–5 lines of pseudocode showing Dantzig–Wolfe or Frank–Wolfe with the base-polyhedron oracle as the linear subproblem. Also point to where DW/FW are introduced.
+   
+6. Disaggregation and fairness in practice: After labeling vertices via \mathrm{Sym}(\tilde T), it's better to outline a practical routine to compute \lambda and \Pi (e.g., a small robust simplex over T{+}1 vertices). You can consider an optional fairness tie-break (min-deviation from baselines or lexicographic equity) so Theorem 7 is immediately usable.
+   
+7. EV specialization—add a toy walk-through: A short, didactic example (6–8 steps) that computes (p_i,b_i), aggregates to (p,b), and shows the resulting permutahedron might help readers map Eqs. (16a–b) to the geometry.
+   
+8. Statistical robustness of the month-long study: Please include confidence intervals and state the sources of variability (device populations, network constraints, price profiles). Also note explicitly that the baselines optimize over "inner" sets and can be suboptimal.
+   
+9. Notation and reader aids: A small boxed note distinguishing numeric + from Minkowski \oplus would reduce friction. A quick visual to accompany the projection (Theorem 4) would also help.
 
-% 5. Nonlinear objectives—give a recipe: Since (17) may be nonlinear, please include 4–5 lines of pseudocode showing Dantzig–Wolfe or Frank–Wolfe with the base-polyhedron oracle as the linear subproblem. Also point to where DW/FW are introduced.
-
-% 6. Disaggregation and fairness in practice: After labeling vertices via \mathrm{Sym}(\tilde T), it's better to outline a practical routine to compute \lambda and \Pi (e.g., a small robust simplex over T{+}1 vertices). You can consider an optional fairness tie-break (min-deviation from baselines or lexicographic equity) so Theorem 7 is immediately usable.
-
-% 7. EV specialization—add a toy walk-through: A short, didactic example (6–8 steps) that computes (p_i,b_i), aggregates to (p,b), and shows the resulting permutahedron might help readers map Eqs. (16a–b) to the geometry.
-
-% 8. Statistical robustness of the month-long study: Please include confidence intervals and state the sources of variability (device populations, network constraints, price profiles). Also note explicitly that the baselines optimize over "inner" sets and can be suboptimal.
-
-% 9. Notation and reader aids: A small boxed note distinguishing numeric + from Minkowski \oplus would reduce friction. A quick visual to accompany the projection (Theorem 4) would also help.
-\subsubsection{Actions}
-\sububsection{Response to Reviewers}
-
-
-
-
-
-
-
-
-
-\subsection{Reviewer: 3}
+Reviewer: 3
 
 Comments to the Author
 General comment:
 As indicated in the title, this paper applies the g-polymatroids theory to generalize the problem of flexibility aggregation from multiple DERs.
 The subject is timely, interesting and relevant to the journal. The main content of the paper is devoted to the mathematical development related to the g-polymatroids theory and the adaptation of this theory to the specific problem of flexibility aggregation needs to be further discussed and clarified. Indeed, the theoretical part (which is written and formulated in a quite precise way from mathematical point of view) is difficult to follow for general readers of the journal who are specialists in power systems and smart grids. Further illustrative examples may help.
 Overall, the paper is original and interesting. A revision addressing the following questions and concerns of this reviewer could improve the quality of the paper.
+1) Section II.A and definition 1, formulates a general flexibility set. However, it neglects the ramping constraints of devices (e.g., u_i(t)-u_i(t-1) 2) The authors are recommended to add a small illustrative example (e.g., 2 devices) in section III to demonstrate the aggregation method.
+3) The optimization section IV is too generic and difficult to follow. A concrete example of a specific objective function and decision variables could be helpful.
 
-% 1) Section II.A and definition 1, formulates a general flexibility set. However, it neglects the ramping constraints of devices (e.g., u_i(t)-u_i(t-1) 
-
-% 2) The authors are recommended to add a small illustrative example (e.g., 2 devices) in section III to demonstrate the aggregation method.
-% 3) The optimization section IV is too generic and difficult to follow. A concrete example of a specific objective function and decision variables could be helpful.
-% 4) The numerical results are very short, which is understandable within the page limits for the first submission. However, this section should be further extended to demonstrate the application of different mathematical development and theories in sections II and IV with solid examples.
-
-
-\subsubsection{Actions}
-Minor:
-
-1) Section II.A and definition 1, formulates a general flexibility set. However, it neglects the ramping constraints of devices (e.g., u_i(t)-u_i(t-1) 
-\textit{Justify neglecting ramping}
-
-
-
-
-
-Major:
-1)
-Small example in Section 3
-The authors are recommended to add a small illustrative example (e.g., 2 devices) in section III to demonstrate the aggregation method.
-
-
-2)Example in optmization section
-The optimization section IV is too generic and difficult to follow. A concrete example of a specific objective function and decision variables could be helpful.
-
-3) More numerical results
-The numerical results are very short, which is understandable within the page limits for the first submission. However, this section should be further extended to demonstrate the application of different mathematical development and theories in sections II and IV with solid examples.
-
-
-
-
-\subsubsection{Response}
-1) Section II.A and definition 1, formulates a general flexibility set. However, it neglects the ramping constraints of devices (e.g., u_i(t)-u_i(t-1) 
-Say now we neglect ramping
+4) The numerical results are very short, which is understandable within the page limits for the first submission. However, this section should be further extended to demonstrate the application of different mathematical development and theories in sections II and IV with solid examples.
+Add this as a numerical result section: 1. When does exactness fail—and by how much: A small stress test on leaky/inefficient devices (\lambda<1, \eta^\pm<1) would be very helpful. Use the g-polymatroid "inner/outer" proxies you mention and report the optimality gap against a MILP ground truth as leakage increases. That would turn the assumptions around Eq. / Assump. (9) into concrete guidance.
