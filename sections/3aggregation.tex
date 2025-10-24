@@ -122,14 +122,25 @@ The following new Theorem makes this explicit:
 This result is formally proved in the Appendix.
 
 \begin{remark}
-    Theorem \ref{lem:individual_flexibility_sets_g_polymatroid} provides a characterization of the individual flexibility sets in terms of g-polymatroids. The corresponding super- and submodular functions, $p_T$ and $b_T$, admit an intuitive interpretation: for each subset $A \subseteq \mathcal{T}$, $b_T(A)$ specifies the maximum cumulative energy the device can consume during time steps within the interval $A$. Equivalently, $p_T(A)$ represents the minimum cumulative energy the device can consume (or the maximum it can generate) within those time steps.  From their derivation $p_T$ and $b_T$ implicitly enforce the device's operational constraints. We show the super- and submodular functions for a simple case in Fig. \ref{fig:paramodular}.
+    Theorem \ref{lem:individual_flexibility_sets_g_polymatroid} provides a characterization of the individual flexibility sets in terms of g-polymatroids. The corresponding super- and submodular functions, $p_T$ and $b_T$, admit an intuitive interpretation: for each subset $A \subseteq \mathcal{T}$, $b_T(A)$ specifies the maximum cumulative energy the device can consume during time steps within the interval $A$. Equivalently, $p_T(A)$ represents the minimum cumulative energy the device can consume (or the maximum it can generate) within those time steps.  From their derivation $p_T$ and $b_T$ implicitly enforce the device's operational constraints. One can view the super- and submodular functions as a discrete geometric analogue of \cite[Lemma III.1]{Evans2020AResources}. We show functions for a simple case in Fig. \ref{fig:paramodular}.
 \end{remark}
  
 \begin{remark}\label{rem:genpolyedges}
-    G-polymatroids are a natural way of expressing the flexibility in DERs. The edges of a g-polymatroid are directed as multiples of the vectors $e_j$ or $e_j - e_k$, $\forall j,k \in \mathcal{T}$, \cite{Frank2014CharacterizingPolymatroids}. Equivalently, the normal fans associated with the flexibility sets are coarsenings of the (projected) braid fan, \cite[3.2]{PostnikovAlex2008FacesPermutohedra.}. Consider the state of charge dynamics from \eqref{eq:soc_dynamics}, this endows our flexibility sets with some symmetry: charging more during one time step necessitates charging less by an equivalent amount during another. For example, let $v$ be an extreme point of $\mathcal{F}(\xi)$, representing an extremal consumption profile for the device. Under \eqref{eq:soc_dynamics}, increasing the $j^{th}$ component of $u$ (to charge more at time $j$) forces a commensurate decrease in the $k^{th}$ (charging less at time $k$), effectively moving in the direction $e_j - e_k$.  
-    One can view this as a discrete geometric analogue of \cite[Lemma III.1]{Evans2020AResources}. 
-    This symmetry in the SoC dynamics is precisely what enables us to characterize $\mathcal{F}(\xi)$ as a g-polymatroid. For devices with leaky charging dynamics or non-perfect charging efficiency this symmetry is broken and so their flexibility sets are not g-polymatroids. Nonetheless, g-polymatroids can serve as good inner approximations of these flexibility sets \cite{Mukhi2025AggregatePolymatroids}.
+    G-polymatroids are a natural way of expressing the flexibility in DERs. The edges of a g-polymatroid are directed as multiples of the vectors $e_j$ or $e_j - e_k$, $\forall j,k \in \mathcal{T}$, \cite{Frank2014CharacterizingPolymatroids}. Equivalently, the normal fans associated with the flexibility sets are coarsenings of the (projected) braid fan, \cite[3.2]{PostnikovAlex2008FacesPermutohedra.}. Consider the state of charge dynamics from \eqref{eq:soc_dynamics}, this endows our flexibility sets with some symmetry: charging more during one time step necessitates charging less by an equivalent amount during another. For example, let $v$ be an extreme point of $\mathcal{F}(\xi)$, representing an extremal consumption profile for the device. Under \eqref{eq:soc_dynamics}, increasing the $j^{th}$ component of $u$ (to charge more at time $j$) forces a commensurate decrease in the $k^{th}$ (charging less at time $k$), effectively moving in the direction $e_j - e_k$.
+    This symmetry in the SoC dynamics is precisely what enables us to characterize $\mathcal{F}(\xi)$ as a g-polymatroid.
     \end{remark}
+
+
+\begin{lemma}[No-go for leakage or imperfect charging efficiency]\label{lem:no_go}
+    For a device with SoC dynamics:
+    \[
+        x_i(t) =  \lambda x_i(t-1) + \eta_i^+ u_i^+(t) + \frac{1}{\eta_i^-} u_i^-(t)
+    \]
+    with $u_t=u_t^+-u_t^-$, $u_t^\pm\ge0$s. If $T\ge2$ and either (i) $\lambda\ne1$ or (ii) $\eta^+\ne\eta^-$, then the associated individual flexibility set $\mathcal{F}(\xi)\subset\mathbb{R}^T$ is not a generalized polymatroid.
+    \end{lemma}
+    
+   
+    % For devices with leaky charging dynamics or non-perfect charging efficiency this symmetry is broken and so their flexibility sets are not g-polymatroids. Nonetheless, g-polymatroids can serve as good inner approximations of these flexibility sets \cite{Mukhi2025AggregatePolymatroids}.
 
 
 \subsection{Aggregate Flexibility Sets}
