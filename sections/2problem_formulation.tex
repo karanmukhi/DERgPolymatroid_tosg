@@ -89,7 +89,7 @@ Finally, given an optimal aggregate consumption profile $u_\mathcal{N}^* \in \ma
 The DER consumption model introduced in Section \ref{subsect:der_model} is versatile, capable of representing the flexibility in a variety of devices, including EVs \cite{Taha2024AnPopulations}, storage systems, distributed generation and the slower dynamics of TCL consumption \cite{Xu2016HierarchicalLoads}. This section details the methodology for specifying the model parameters, denoted by $\xi_i$. 
 For brevity, the discussion is limited to EVs; however, the approach can be readily extended to other classes of devices.
 
-We assume that each vehicle arrives at the charging station at the beginning of time step $a_i$ and departs at the end of time step $d_i$, where $a_i, d_i \in \mathcal{T}$,  within the defined time horizon. Accordingly, we define the charging interval for vehicle $i$ as $C_i := \{a_i, a_i +1,...,d_i\} \subseteq \mathcal{T}$
+We assume that each vehicle arrives at the charging station at the beginning of time step $a_i$ and departs at the end of time step $d_i$, where $a_i, d_i \in \mathcal{T}$,  within the defined time horizon. Accordingly, we define the charging interval for vehicle $i$ as $C_i := \{a_i, a_i +1,...,d_i\} \subseteq \mathcal{T}$. 
 At all time steps during this period, the EV may consume energy between its minimum and maximum power capacity $\underline{m}_i$ and $\overline{m}_i$, whereas for all other time steps the power consumption must vanish. Accordingly, we establish the values of $\underline{u}_i(t)$ and $\overline{u}_i(t)$:
 \begin{equation*}
     \begin{array}{cc}
