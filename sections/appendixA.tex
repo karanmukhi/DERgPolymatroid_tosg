@@ -1,0 +1,108 @@
+\subsection{Proof of Theorem \ref{lem:individual_flexibility_sets_g_polymatroid}}
+\begin{proof}
+We will show by induction on \(s=0,1,\dots,T\) that 
+\begin{equation*}
+    \mathcal{G}_s(\xi) := \left\{ u \in \mathbb{R}^\mathcal{T} \; \middle\vert \;
+    \begin{array}{@{}cl}
+        \underline{u}(t) \leq u(t) \;\; \leq \overline{u}(t) \;\; \forall t \in \mathcal{T}\\
+        \; \underline{x}(t) \leq u([t]) \leq \overline{x}(t) \;\; \forall t \in [s]
+    \end{array} 
+    \right\}
+\end{equation*}
+is a g‐polymatroid \(\mathcal Q(p_s,b_s)\). Clearly by construction $\mathcal{F}(\xi) =  \mathcal{G}_T(\xi)$. 
+We define the following set:
+\begin{equation*}
+    \mathcal{K}_{s+1}(\xi):= \left\{ u\in\mathbb{R}^\mathcal{T} \mid \underline{x}(s+1) \leq u([s+1]) \leq \overline{x}(s+1) \right\}.
+\end{equation*}
+The set $ \mathcal{G}_{s+1}(\xi)$ is then given by the intersection $\mathcal{G}_{s+1}(\xi) =  \mathcal{G}_s(\xi)  \cap \mathcal{K}_{s+1}(\xi)$.
+We let $S \subseteq \mathcal{T}$ denote the set $S:=\{1,...,s+1\}$ and $S'$ denote its complement $S' := \mathcal{T} \setminus S$.
+As $\mathcal{K}_{s+1}(\xi)$ only constrains the first $s+1$ elements of $u$, $\mathcal{K}_{s+1}(\xi)$ can be written as the Cartesian product:
+\begin{equation}\label{eq:K_s+1_decomposition}
+    \mathcal{K}_{s+1}(\xi) = \mathcal{K}^S_{s+1}(\xi) \times \mathbb{R}^{S'}
+\end{equation}
+where $\mathcal{K}^S_{s+1}(\xi) \subset \mathbb{R}^S$ is a \textit{plank}, defined as \cite[14.1]{Frank2011ConnectionsOptimization}:
+\begin{equation*}
+    \mathcal{K}^S_{s+1}(\xi) := \left\{ u\in\mathbb{R}^S \mid \underline{x}(s+1) \leq u([s+1]) \leq \overline{x}(s+1) \right\}.
+\end{equation*}
+Given a set function \( f: 2^{\mathcal{T}} \to \mathbb{R} \) and a subset \( S \subseteq \mathcal{T} \), we define the restriction of \( f \) to \( S \), denoted \( f^S \), as the function \( f^S: 2^{S} \to \mathbb{R} \) such that \( f^S(A) = f(A) \) for all \( A \subseteq S \).  
+Moreover, for any subsets \( A, S \subseteq \mathcal{T} \), we define \( A_S := A \cap S \).
+
+As the inductive hypothesis, we assume that $ \mathcal{G}_s(\xi)$ is a g-polymatroid $\mathcal{Q}(p_s, b_s)$, where the super- and submodular functions that generate it are separable amongst the disjoint subsets $S, S' \subseteq \mathcal{T}$. That is, they can be written as 
+\begin{subequations}\label{eq:inductive_hype}
+    \begin{equation}
+        p_s(A) = p^S_s(A_S) + p^{S'}_s(A_{S'})
+    \end{equation}
+    \begin{equation} 
+        b_s(A) = b^S_s(A_S) + b^{S'}_s(A_{S'}).
+    \end{equation}
+\end{subequations}
+We also assume $p^{S'}_s$ and $ b^{S'}_s$ are the modular functions:
+\begin{equation}\label{eq:modular_functions}
+        p^{S}_s(A_{S'}) = \underline{u}(A_{S'}) \quad \text{and} \quad b^{S'}_s(A_{S'}) = \overline{u}(A_{S'}).
+\end{equation}
+Note by definition $ \mathcal{G}_0(\xi)$ is the g-polymatroid $\mathcal{Q}(p_0, b_0)$, where $p_0(A) = \underline{u}(A)$ and $b_0(A) = \overline{u}(A)$, which satisfies this hypothesis.
+As $p_s$ and $b_s$ are separable over $S$ and $S'$, $\mathcal{G}_s(\xi)$ can be written as the Cartesian product:
+$\mathcal{G}_s(\xi) = \mathcal{Q}(p^S_s,b^S_s) \times \mathcal{Q}(p^{S'}_s,b^{S'}_s)$.
+Taking the intersection of $ \mathcal{G}_s(\xi)$ and $\mathcal{K}_{s+1}(\xi)$ using this and the decomposition in \eqref{eq:K_s+1_decomposition} we get
+\begin{align*}
+     \mathcal{G}_{s+1}(\xi)  &=   \mathcal{G}_s(\xi)  \cap \mathcal{K}_{s+1}(\xi)\\
+                                &= \mathcal{Q}(p^S_s,b^S_s) \times \mathcal{Q}(p^{S'}_s,b^{S'}_s) \cap \mathcal{K}^S_{s+1}(\xi) \times \mathbb{R}^{S'}\\
+                            &= \mathcal{Q}(p^S_s,b^S_s) \cap \mathcal{K}^S_{s+1}(\xi) \times\mathcal{Q}(p^{S'}_s,b^{S'}_s)  \cap \mathbb{R}^{S'}.
+\end{align*}
+The intersection of $\mathcal{Q}(p^{S'}_s,b^{S'}_s)  \cap \mathbb{R}^{S'}$ is trivially $\mathcal{Q}(p^{S'}_s,b^{S'}_s)$.
+The intersection of $\mathcal{Q}(p^S_s,b^S_s)$ and the plank $\mathcal{K}^S_{s+1}(\xi)$ is the g-polymatroid $ \mathcal{Q}(p^S_{s+1},b^S_{s+1}) \subset \mathbb{R}^S$, where $p^S_{s+1}$ and $b^S_{s+1}$ are given by \cite[Theorem 14.2.14]{Frank2011ConnectionsOptimization}:
+\begin{subequations}\label{eq:intersection_plank}
+    \begin{equation}
+                p^S_{s+1}(A_S) = \max\{p^S_s(A_S), \;\underline{x}(s+1) - b^S_s(A'_S)\}
+    \end{equation}
+                \begin{equation}
+                b^S_{s+1}(A_S) = \min\{b^S_s(A_S), \;\overline{x}(s+1) - p^S_s(A'_S)\},
+    \end{equation}
+\end{subequations}
+    where $A'_S = S \setminus A_S$.
+Taking the Cartesian product of the two g-polymatroids we get the g-polymatroid 
+\begin{align*}
+     \mathcal{G}_{s+1}(\xi) &= \mathcal{Q}(p^S_{s+1},b^S_{s+1}) \times \mathcal{Q}(p^{S'}_s,b^{S'}_s)\\
+    &= \mathcal{Q}(p_{s+1},b_{s+1}),
+\end{align*}
+where, using the assumption that $p^{S'}_s(A_{S'})$ and $b^{S'}_s(A_{S'})$ are the modular functions from \eqref{eq:modular_functions}, we have:
+\begin{align*}
+    p_{s+1}(A) &=  p^S_{s+1}(A_S) + \underline{u}(A_{S'}) \\
+    b_{s+1}(A) &=  b^S_{s+1}(A_S) + \overline{u}(A_{S'}).
+\end{align*}
+Note, \( p_{s+1}(A) \) and \( b_{s+1}(A) \) are separable over the disjoint subsets \( S_+ := \{1, \ldots, s+2\} \) and \( S_+' := \mathcal{T} \setminus S_+ \). Moreover, \( p^{S_+'}_{s+1} \) and \( b^{S_+'}_{s+1} \) are precisely the modular functions \( \underline{u}(A_{S_+'}) \) and \( \overline{u}(A_{S_+'}) \), respectively.
+Hence, if \eqref{eq:inductive_hype} and \eqref{eq:modular_functions} hold for $s$, they hold for $s+1$, thus completing the inductive step.
+
+Finally, writing $p_{s+1}$ and $b_{s+1}$ out in full we get:
+\begin{subequations}
+    \begin{IEEEeqnarray}{rCl}
+        p_{s+1}(A) & = & \max\Bigl\{ p_s(A \cap S), \;\;\underline{x}(s+1) - b_s(A'\cap S)\Bigr\}
+    \nonumber\\
+    & & \hphantom{\max\Bigl\{} + \underline{u}(A \cap S')
+    \\[2pt]
+    b_{s+1}(A) & = & \min\Bigl\{ b_s(A \cap S), \;\;\overline{x}(s+1) - p_s(A'\cap S)\Bigr\}
+    \nonumber\\
+    & & \hphantom{\min\Bigl\{} + \overline{u}(A \cap S')
+    \end{IEEEeqnarray}
+    \end{subequations}
+as required.
+\end{proof}
+
+
+
+\subsection{Proof of Theorem \ref{thm:disaggregation}}
+\begin{proof}
+    By Theorem \ref{thm:caratheodory}, for all $u_\mathcal{N} \in \mathcal{F}_\mathcal{N}$, there exist $\lambda \in \mathbb{R}^{T + 1}$ and $\Pi = \{\pi_1, ..., \pi_{T+1}\} \subset \mathrm{Sym}(\Tilde{\mathcal{T}})$, such that $
+        u_\mathcal{N} = \sum_{j=1}^{|\Tilde{\mathcal{T}}|} \lambda^j v_\mathcal{N}^{\pi_j}$,
+    where $\sum_j^{T+1}\lambda^j = 1$, $\lambda^j > 0 \; \forall \;j$, and  $v_\mathcal{N}^{\pi_j}$ are vertices of $\mathcal{F}_\mathcal{N}$.
+    Corollary \ref{thm:fukuda} allows us to write $ v_\mathcal{N}^{\pi_j}$ as a decomposition of the vertices of the $\mathcal{F}_i$, that is $v_\mathcal{N}^{\pi_j} = \sum_{i\in \mathcal{N}} v_i^{\pi_j} \;\;\forall \pi_j \in \Pi$  where $v_i^{\pi_j}$ are vertices of $\mathcal{F}_i$. Therefore, we can rwrite $u_\mathcal{N}$ as
+    \begin{equation*}
+        u_\mathcal{N} = \sum_{j=1}^{T+1} \lambda^j \sum_{i\in \mathcal{N}} v_i^{\pi_j} = \sum_{i\in \mathcal{N}} \sum_{j=1}^{T+1} \lambda^j v_i^{\pi_j} = \sum_{i\in \mathcal{N}} u_i.
+                        % &= \sum_{i\in \mathcal{N}} \sum_{j=1}^{T+1} \lambda_j v_i^{\pi_j} \\
+    \end{equation*}
+     where we define $u_i := \sum_{j=1}^{T+1} \lambda^j v_i^{\pi_j}$. By definition, $u_i$ is a convex combination of the vertices of $\mathcal{F}_i$ hence $u_i \in \mathcal{F}_i$, completing our proof.
+\end{proof}
+
+
+
+

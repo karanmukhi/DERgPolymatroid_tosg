@@ -1,0 +1,147 @@
+\section{Problem Formulation}\label{sec:prob_form}
+In this section we introduce our power consumption model for a DER and formalise our notion of \textit{flexibility}, both in the context of individual devices and for aggregations of devices.
+We introduce three problems that we aim to solve in this paper: aggregation, optimisation and disaggregation. 
+Finally, we discuss the expressivity and the limitations of the model we introduce.
+
+In the following, we consider an aggregator that has direct control over the power consumption of a finite population of devices, indexed by $i \in \mathcal{N}$, where $\mathcal{N} := \{1, \ldots, N\}$. 
+We consider this problem over a finite time horizon, we discretize this horizon into $T$ time steps each of duration $\delta$. We denote the set of time steps as $\mathcal{T} := \{1, \ldots, T\}$, and let $t \in \mathcal{T}$ index a specific interval. 
+
+\subsection{DER Flexibility Sets}\label{subsect:der_model}
+Let $u_i(t)$ denote the consumption rate of the $i^{th}$ DER, in time step $t \in \mathcal{T}$. Each time step is assumed to be of equal length, denoted $\delta > 0$.  By convention, $u_i(t)$ denotes the net power consumption of the device, i.e. $u_i(t) < 0$ indicates that the device is generating power, and $u_i(t) > 0$ signifies the device is consuming power. The DER's power consumption is assumed to be constant within each time step. The vector $u_i \in \mathbb{R}^{\mathcal{T}}$ denotes the \textit{consumption profile} of the DER over the entire time horizon.
+
+Each DER will have a (possibly time-dependent) lower and upper limit on its power consumption, denoted by $\underline{u}_i$ and $\overline{u}_i \in \mathbb{R}^\mathcal{T},$ such that its power consumption must stay within this interval in each time step:
+\begin{equation}
+    \underline{u}_i(t) \leq u_i(t) \leq \overline{u}_i(t) \quad \forall t \in \mathcal{T}.
+\end{equation}
+Next, we let $x_i \in \mathbb{R}^{\mathcal{T}}$ denote the \textit{state of charge} (SoC) of the DER, such that $x_i(t)$ is the state of charge at the end of timestep $t$:
+\begin{equation}\label{eq:soc_dynamics}
+    x_i(t) = x_i(t-1) + u_i(t) \delta.
+\end{equation}
+Without loss of generality, we assume $\delta=1$. By convention, and also without loss of generality, we assume the initial state of charge of the DER at $t=0$ is $x_i(0) = 0$, and so we can write \eqref{eq:soc_dynamics} as:
+\begin{equation}
+    x_i(t) = u_i([t])
+\end{equation}
+where $u_i([t])$ denotes the sum of the first $t$ elements of $u_i$, as introduced in the notation section.
+Similarly to its power constraints, the DER will also have a (again possibly time-dependent) lower and upper limit on the SoC, denoted by $\underline{x}_i$ and $\overline{x}_i \in \mathbb{R}^{\mathcal{T}}$ respectively, such that:
+\begin{equation}\label{eq:energy_constraints}
+    \underline{x}_i(t) \leq u_i([t]) \leq \overline{x}_i(t) \quad \forall t \in \mathcal{T}.
+\end{equation}
+For ease of notation we collect all the parameters relating to the DER power consumption requirements into the tuple 
+$\xi_i = (\underline{u}_i, \overline{u}_i, \underline{x}_i, \overline{x}_i)$.
+
+\begin{definition}\label{dfn:individual_flexibility_sets}
+    For a DER with consumption requirements $\xi_i$, the \emph{individual flexibility set} of the device, denoted $\mathcal{F}(\xi_i)$, is the set of all feasible consumption profiles for the DER:
+\begin{equation*}
+    \mathcal{F}(\xi_i) := \left\{ u \in \mathbb{R}^{\mathcal{T}} \; \middle\vert \;
+   \begin{array}{@{}cl}
+                    \underline{u}_i(t) \leq u(t)  \leq \overline{u}_i(t) \;\; \forall t \in \mathcal{T}\\
+                    \underline{x}_i(t) \leq \sum_{s=1}^t u(s) \leq \overline{x}_i(t) \;\; \forall t \in \mathcal{T}
+   \end{array} 
+   \right\}. 
+\end{equation*}
+\end{definition}
+The individual flexibility set, $\mathcal{F}(\xi_i)$, is defined by a set of linear constraints.  The first set of these constraints is clearly bounded, hence the individual flexibility sets are all compact, convex polytopes.
+
+
+\subsection{Aggregated Flexibility Sets}
+We now consider an aggregator controlling a population of DERs, each characterized by its own consumption parameter. We let $\Xi_\mathcal{N} = \{\xi_i\}_{i \in \mathcal{N}}$ denote the multiset of consumption parameters for all DERs in the population. 
+The \textit{aggregate consumption profile}, denoted $u_\mathcal{N}$, is the sum of the individual consumption profiles of devices in the population:
+\begin{equation}
+    u_\mathcal{N} = \sum_{i \in \mathcal{N}} u_i.
+\end{equation}
+\begin{definition}\label{dfn:aggregate_flexibility_set}
+    The \emph{aggregate flexibility set} of a population of DERs  with consumption parameters $\Xi_\mathcal{N}$ is the set of all feasible aggregate consumption profiles of the population:
+\end{definition}
+\begin{equation*}
+    \mathcal{F}(\Xi_\mathcal{N}) := \left\{ u_\mathcal{N} \in \mathbb{R}^{\mathcal{T}} \middle| u_\mathcal{N} = \sum_{i \in \mathcal{N}} u_i,\;\; u_i \in \mathcal{F}(\xi_i) \; \forall i \in \mathcal{N} \right\}. 
+\end{equation*}
+By definition, the aggregate flexibility set $ \mathcal{F}(\Xi_\mathcal{N})$, is the Minkowski sum of the individual flexibility sets of the DERs in the population:
+\begin{equation}
+    \mathcal{F}(\Xi_\mathcal{N})  = \sum_{i \in \mathcal{N}} \mathcal{F}(\xi_i).
+\end{equation} 
+
+\begin{remark}
+One can compute the Minkowski sum of a collection of polytopes by considering the common refinement of their normal fans \cite[Proposition 7.12]{Ziegler2012LecturesPolytopes}.
+By summing each of the polytope’s support functions of the rays of the refined normal fan, one obtains the facet description of the sum, and by summing the support functions of the full-dimensional cones, one recovers the vertex description.
+Forming the common refinement of several normal fans can become quite expensive, especially as the dimension or the number of summands grows. In essence, one must take each cone from every input fan and intersect it with all cones coming from the other fans. In practical terms, this means that in higher dimensions—or when combining many polytopes—enumerating all intersections tends to blow up combinatorially. Because our aim is to compute the Minkowski sum of a large family of such high-dimensional polytopes, forming the common refinement is generally infeasible. However, we will show that the normal fans of the flexibility sets in question are all coarsenings of a single fan, so the normal fan of their Minkowski sum is exactly that shared fan.
+\end{remark}
+
+
+
+
+
+
+\subsection{Optimization and Disaggregation}
+With a characterization of the aggregate flexibility set $\mathcal{F}(\Xi_\mathcal{N}) $, we consider aggregators that would like to find certain optimal aggregate consumption profiles, solving problems of the form:
+\begin{equation}
+    \textrm{minimize} \;\; f(u) \quad s.t \;\;u \in \mathcal{F}(\Xi_{\mathcal{N}}).
+\end{equation}
+As we shall see in the next section, the characterization of the aggregate flexibility set, though exact, is complex. In general, $\mathcal{F}(\Xi_\mathcal{N}) $ is a polytope characterized by at most $2^T$ facets and up to $T!$ vertices. Optimizing over this characterization is not trivial, and so we shall present methods to make this optimization tractable. 
+
+
+Finally, given an optimal aggregate consumption profile $u_\mathcal{N}^* \in \mathcal{F}(\Xi_\mathcal{N})  $, we seek to disaggregate this profile among the DERs in the population. This involves determining individual consumption profiles that are feasible for each device while ensuring their aggregate consumption matches the optimal aggregate consumption profile, i.e. computing $u_i^*$ such that:
+\begin{equation}\label{eq:disaggregation}
+  u_\mathcal{N}^* = \sum_{i=1}^N u_i^* \quad s.t \;\; u_i^* \in \; \mathcal{F}(\xi_i) \;\; \forall i \in \mathcal{N}.
+\end{equation}
+
+
+\subsection{Expressivity of the Model}\label{subsect:expressivity}
+The DER consumption model introduced in Section \ref{subsect:der_model} is versatile, capable of representing the flexibility in a variety of devices, including EVs \cite{Taha2024AnPopulations}, storage systems, distributed generation and the slower dynamics of TCL consumption \cite{Xu2016HierarchicalLoads}. This section details the methodology for specifying the model parameters, denoted by $\xi_i$. 
+For brevity, the discussion is limited to EVs; however, the approach can be readily extended to other classes of devices.
+
+We assume that each vehicle arrives at the charging station at the beginning of time step $a_i$ and departs at the end of time step $d_i$, where $a_i, d_i \in \mathcal{T}$,  within the defined time horizon. Accordingly, we define the charging interval for vehicle $i$ as $C_i := \{a_i, a_i +1,...,d_i\} \subseteq \mathcal{T}$
+At all time steps during this period, the EV may consume energy between its minimum and maximum power capacity $\underline{m}_i$ and $\overline{m}_i$, whereas for all other time steps the power consumption must vanish. Accordingly, we establish the values of $\underline{u}_i(t)$ and $\overline{u}_i(t)$:
+\begin{equation*}
+    \begin{array}{cc}
+        \underline{u}_i(t) = 
+        \begin{cases}
+            0                   & t \notin C_i  \\
+            \underline{m}_i     & t \in C_i,\\
+        \end{cases}
+        & 
+        \overline{u}_i(t) = 
+        \begin{cases}
+            0                   & t \notin C_i \\
+            \overline{m}_i     &  t \in C_i.\\
+        \end{cases}
+    \end{array}
+\end{equation*}
+This model permits discharging and so $\underline{m}_i$ may take negative values. To model EVs with no discharging capabilities we simply set $\underline{m}_i = 0$ \cite{Panda2024EfficientVehicles}, \cite{Mukhi2023AnVehicles}.
+Next, we consider the constraints on the state of charge of the EV. We assume each EV has a limited energy storage capacity, $\overline{x}_i \in \mathbb{R}_+$. The EV arrives with an initial state of charge $e^0_{i}$, and must have a final state of charge in the interval $[\underline{e}_i, \overline{e}_i]$ at the time it departs, from which we determine the values for $\underline{x}_i(t)$ and $\overline{x}_i(t)$ \cite{Taha2024AnPopulations} \cite{Hao2014CharacterizingLoads} 
+\begin{equation*}
+    \begin{array}{cc}
+        \underline{x}_i(t) = 
+        \begin{cases}
+            -e^0_{i}                  & t < d_i\\
+            \underline{e}_i -e^0_{i}  & t \geq d_i,
+        \end{cases} 
+        & 
+        \overline{x}_i(t) = 
+        \begin{cases}
+            \overline{x}_i -e^0_{i}   & t < d_i\\
+            \overline{e}_i -e^0_{i}   & t \geq d_i.
+        \end{cases} 
+    \end{array}
+\end{equation*}
+
+An energy storage system is essentially an EV, that is available for the entire time horizon, i.e. $\underline{u}(t) = \underline{m}$ and  $\overline{u}(t) = \overline{m}$, $\forall t$. Furthermore, there are no constraints on the final state of charge other than respecting the device's storage constraints. Assuming the ESS has an initial SoC $e^0_{i}$, we have $\underline{x}_i(t) = -e^0_{i}$ and $\overline{x}_i(t) = \overline{x}_i - e^0_{i}$, $\forall t$.
+
+For distributed generation the consumption will be bounded from above by $\overline{u}_i(t) = 0 \; \forall t$, i.e. when the device is fully curtailed, and from below by $\underline{u}_i(t)$, its time-dependent maximum power output. Generation systems lack a SoC, and so to effectively disregard SoC constraints, we set  $\underline{x}_i(t) = -\infty$ and $\overline{x}_i(t) = \infty \;\; \forall t$. 
+
+
+\subsection{Limitations}
+Whilst this model is expressive enough to describe  various different classes of devices, there are some limitations. Firstly, this model assumes perfect round-trip-efficiency for battery charging and discharging. The state of charge dynamics for batteries from \eqref{eq:soc_dynamics} can more generally be written as
+\begin{equation*}
+    x_i(t) =  x_i(t-1) + \eta_i^+ u_i^+(t) + \frac{1}{\eta_i^-} u_i^-(t), 
+\end{equation*}
+where $\eta_i^+$ and $\eta_i^-$ denote the device's charging and discharging efficiencies, and $ u_i^+(t) := \textrm{max}\{0, u_i(t)\}$ and $u_i^-(t) := \textrm{min}\{0, u_i(t)\}$ separate the consumption profile into the charging and discharging components. Whilst our model implicitly assumes $\eta_i^+ = \eta_i^- = 1$, $\eta_i^+$ and $\eta_i^-$ will typically lie in the interval $(0, 1]$ depending on the characteristics of the battery. However, if the devices are restricted to consumption only, i.e. $\underline{u}_i(t) \geq 0$ for all $t$, we may absorb $\eta_i^+$ into $u_i^+(t)$,  and the model remains faithful.
+
+
+Secondly, we assume lossless charging, i.e. devices perfectly hold their state of charge. The state dynamics from \eqref{eq:soc_dynamics} for general lossy devices can instead be written as 
+\begin{equation}
+    x_i(t) = \lambda_i x_i(t-1) + u_i(t), 
+\end{equation}
+with $\lambda_i \in [0,1]$, where $\lambda_i = 1$ corresponds to lossless charging. While this is generally not a concern when modeling storage devices, since battery based systems such as EVs and ESSs typically retain their charge effectively, the consumption dynamics of TCLs are inherently characterized by lossy storage. Nevertheless, g-polymatroid inner or outer approximations can still be constructed when this assumption is relaxed, as shown in \cite{Mukhi2025AggregatePolymatroids}.
+
+Other methods in the literature do not impose these assumptions \cite{Taha2024AnPopulations, Muller2019AggregationResources}, however they yield approximations of the aggregate flexibility.
+It is precisely the enforcement of these assumptions, namely, perfectly efficient charging and discharging ($\eta_i^+ = \eta_i^- = 1$) and lossless storage ($\lambda_i = 1$), that gives rise to the structure of the flexibility sets that allows them to be characterized as g-polymatroids. These structural properties are elaborated in Remark~\ref{rem:genpolyedges}.
