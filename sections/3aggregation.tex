@@ -182,14 +182,14 @@ Theorem~\ref{lem:individual_flexibility_sets_g_polymatroid}, in particular notin
 \end{subequations}
 To simplify the super- and submodular functions of the aggregate flexibility set, we first introduce for each vehicle two extremal charging profiles: \(\underline{v}_i\), which delays charging as long as possible, and \(\overline{v}_i\), which front‐loads charging to finish as early as possible:
 \begin{equation}\label{eq:extremal_charging}
-        \underline{v}_i(t) = 
+        \underline{v}^t_i = 
         \begin{cases}
             0                        & t <  \underline{q}_i \\
             \underline{r}_i          & t =  \underline{q}_i \\
             m_i                      & t \geq  \underline{q}_i \\
         \end{cases}
 \quad
-        \overline{v}_i(t) = 
+        \overline{v}^t_i = 
         \begin{cases}
             m_i                    & t <  \overline{q}_i \\
             \overline{r}_i         & t =  \overline{q}_i \\
@@ -197,31 +197,33 @@ To simplify the super- and submodular functions of the aggregate flexibility set
         \end{cases}
     \end{equation}
 where $\underline{q}_i = \lfloor \underline{e}_i / m_i \rfloor$, $\underline{r}_i = \underline{e}_i - \underline{q}_i m_i$, and similarly for $\overline{q}_i$ and $\overline{r}_i$. We can then write \eqref{eq:simplified_ev_modular} as:
-\[
-    p_i(A) \;=\;\sum_{t=1}^{|A \cap C_i|} \underline{v}_i(t), 
+\begin{equation}\label{eq:ev_v_rep}
+    p_i(A) \;=\;\sum_{t=1}^{|A \cap C_i|} \underline{v}^t_i, 
     \quad
-    b_i(A) \;=\;\sum_{t=1}^{|A \cap C_i|} \overline{v}_i(t).
-\]
+    b_i(A) \;=\;\sum_{t=1}^{|A \cap C_i|} \overline{v}^t_i.
+\end{equation}
+
 Now we define $ \mathcal{N}_{a,d} := \{i\in\mathcal{N} : a_i = a,\ d_i = d\}$ as the subset of EVs that share the same arrival and departure time. 
 Applying Theorem~\ref{thm:agg_flex_set} to this subset of devices we obtain the the aggregate super- and submodular functions for a set of EVs with homogeneous arrival and departures times
-\begin{equation}\label{eq:ev_v_rep}
-  p_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}(t),
+\begin{equation*}
+  p_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}^t,
   \quad
-  b_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}(t).
-\end{equation}
+  b_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}^t.
+\end{equation*}
 where
 \[
-  \underline v_{\,a,d}(t) = \sum_{i\in\mathcal{N}_{a,d}} \underline v_i(t),
+  \underline v_{\,a,d}^t = \sum_{i\in\mathcal{N}_{a,d}} \underline v_i(t),
   \quad
-  \overline v_{\,a,d}(t)=\sum_{i\in\mathcal{N}_{a,d}} \overline v_i(t).
+  \overline v_{\,a,d}^t=\sum_{i\in\mathcal{N}_{a,d}} \overline v_i(t).
 \]
 These super- and submodular functions define the \textit{regular permutahedron} \cite{Postnikov2009PermutohedraBeyond}. From this, we recover the characterisation of the aggregate flexibility set as a permutahedron, as derived in \cite{Mukhi2023AnVehicles} and \cite{Panda2024EfficientVehicles}. By summing the super- and submodular functions across all arrival and departure intervals, we obtain the fleet-wide super- and submodular functions as:
 \begin{equation}\label{eq:V1G_aggregate_permutahedra}
-    p(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}(t)
+    p(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}^t
     \quad
-    b(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}(t).
+    b(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}^t.
 \end{equation}
 This yields a representation of the  aggregate flexibility that is independent of the number of devices in the population. As a result, even for extremely large device fleets, the aggregate flexibility can be represented compactly.
+
 
 \begin{exmp}
     We give a brief example to illustrate the aggregation procedure for four EVs. We consider a two-period horizon with $\delta=1$ hour, with EV charging parameters given by:
