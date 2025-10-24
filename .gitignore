@@ -1,3 +1,5 @@
+.vscode/*
+
 # LaTeX build files
 *.aux
 *.bbl
@@ -21,6 +23,16 @@
 *.vrb
 *.xdv
 *.pdf
+
+# Index / nomenclature
+*.idx
+*.ilg
+*.ind
+*.ist
+*.nlo
+*.nls
+*.nlg
+
 
 # Directories
 _build/
