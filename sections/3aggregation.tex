@@ -181,7 +181,7 @@ Theorem~\ref{lem:individual_flexibility_sets_g_polymatroid}, in particular notin
 \end{align}
 \end{subequations}
 To simplify the super- and submodular functions of the aggregate flexibility set, we first introduce for each vehicle two extremal charging profiles: \(\underline{v}_i\), which delays charging as long as possible, and \(\overline{v}_i\), which front‐loads charging to finish as early as possible:
-\begin{equation*}
+\begin{equation}\label{eq:extremal_charging}
         \underline{v}_i(t) = 
         \begin{cases}
             0                        & t <  \underline{q}_i \\
@@ -195,7 +195,7 @@ To simplify the super- and submodular functions of the aggregate flexibility set
             \overline{r}_i         & t =  \overline{q}_i \\
             0                      & t \geq \overline{q}_i \\
         \end{cases}
-    \end{equation*}
+    \end{equation}
 where $\underline{q}_i = \lfloor \underline{e}_i / m_i \rfloor$, $\underline{r}_i = \underline{e}_i - \underline{q}_i m_i$, and similarly for $\overline{q}_i$ and $\overline{r}_i$. We can then write \eqref{eq:simplified_ev_modular} as:
 \[
     p_i(A) \;=\;\sum_{t=1}^{|A \cap C_i|} \underline{v}_i(t), 
@@ -204,11 +204,11 @@ where $\underline{q}_i = \lfloor \underline{e}_i / m_i \rfloor$, $\underline{r}_
 \]
 Now we define $ \mathcal{N}_{a,d} := \{i\in\mathcal{N} : a_i = a,\ d_i = d\}$ as the subset of EVs that share the same arrival and departure time. 
 Applying Theorem~\ref{thm:agg_flex_set} to this subset of devices we obtain the the aggregate super- and submodular functions for a set of EVs with homogeneous arrival and departures times
-\begin{equation*}
+\begin{equation}\label{eq:ev_v_rep}
   p_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}(t),
   \quad
   b_{a,d}(A) = \sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}(t).
-\end{equation*}
+\end{equation}
 where
 \[
   \underline v_{\,a,d}(t) = \sum_{i\in\mathcal{N}_{a,d}} \underline v_i(t),
@@ -222,3 +222,37 @@ These super- and submodular functions define the \textit{regular permutahedron} 
     b(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}(t).
 \end{equation*}
 This yields a representation of the  aggregate flexibility that is independent of the number of devices in the population. As a result, even for extremely large device fleets, the aggregate flexibility can be represented compactly.
+
+\begin{exmp}
+    We give a brief example to illustrate the aggregation procedure for four EVs. We consider a two-period horizon with $\delta=1$ hour, with EV charging parameters given by:
+        \[
+    \begin{array}{c|c|c|c|c}
+    i & (a_i,d_i) & C_i & \overline m_i \;/\;kW  & (\underline e_i,\overline e_i) \;/\; kWh  \\ \hline
+    1 & (1,1) & \{1\}   & 5 & (1,\,5) \\
+    2 & (1,2) & \{1,2\} & 4 & (2,\,3)   \\
+    3 & (1,2) & \{1,2\} & 6 & (3,\,9) \\
+    4 & (2,2) & \{2\} & 4 & (2,\,3)
+    \end{array}
+    \]
+    where as earlier $C_i=\{a_i,\dots,d_i\}$ denotes the interval during which the EV is available, i.e. we have one EV available in the first time step, one in the second and two available for both. From this we can construct the extremal charging profiles $\underline{v}_i$ and $\overline{v}_i$ from \eqref{eq:extremal_charging}:
+    \begin{alignat*}{4}
+    \underline v_1 &=(1)   &\qquad \underline v_2 &=(0,2) &\qquad \underline v_3 &=(0,3) &\qquad \underline v_4 &=(2)\\
+    \overline  v_1 &=(5)   &\qquad \overline  v_2 &=(3,0) &\qquad \overline  v_3 &=(6,3) &\qquad \overline v_4 &=(3).
+    \end{alignat*}
+    Note, by construction the definitions of $p_i(A)$ and $b_i(A)$ from \eqref{eq:simplified_ev_modular} and \eqref{eq:ev_v_rep} are equivalent. Now, aggregating the $\underline v_i$ and $\overline v_i$ by homogeneous arrival and departure times, $(a, d)$ we get
+    \begin{alignat*}{3}
+    \underline \nu_{1,1} &=(1)   &\qquad \underline \nu_{1,2} &=(0,5) &\qquad \underline \nu_{2,2} &=(2)\\
+    \overline \nu_{1,1} &=(5)   &\qquad \overline \nu_{1,2} &=(9,3) &\qquad \overline \nu_{2,2} &=(3)\\
+    \end{alignat*}
+    Applying \eqref{eq:V1G_aggregate_permutahedra}, we compute \(p(A)\) and \(b(A)\) by, for each availability window \((a,d)\), summing the first \(|A\cap[a,d]|\) entries of \(\overline{\nu}_{a,d}\) and then aggregating across all \((a,d)\); for brevity, we only show \(b(A)\) below, $p(A)$ can be computed analogously.
+    \[
+    \begin{array}{c|ccc|c}
+    A & (1,1) & (1,2) & (2,2) & b(A) \\ \hline
+    \{1\}   & 5 & 9  & 0 & 14 \\
+    \{2\}   & 0 & 9  & 3 & 12 \\
+    \{1,2\} & 5 & 12 & 3 & 20
+    \end{array}
+    \]
+    The individual and aggregate flexibility sets for this example are shown in Fig.
+    \end{exmp}
+    
