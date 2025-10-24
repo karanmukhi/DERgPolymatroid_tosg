@@ -33,6 +33,14 @@
 *.nls
 *.nlg
 
+# Latexdiff generated files
+*-diff*.tex
+*-diff*.aux
+*-diff*.bbl
+*-diff*.blg
+*-diff*.log
+*-diff*.out
+*-diff*.pdf
 
 # Directories
 _build/

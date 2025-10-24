@@ -1,0 +1,26 @@
+
+\section{Disaggregation}\label{sec:disaggregation}
+
+
+With an optimal aggregate consumption profile, $u^*_\mathcal{N}$, given by the solution to \eqref{eq:general_prob}, the final task of an aggregator is to disaggregate this among devices in the population. This involves finding a feasible consumption profile for each device, such that 
+the sum of the profiles is equal to the optimal aggregate consumption profile, as formalized in \eqref{eq:disaggregation}. To provide some intuition behind the disaggregation process we propose, we draw on the following two results.
+\begin{theorem}[Carathéodory’s theorem]\cite[Proposition 1.15]{Ziegler2012LecturesPolytopes}\label{thm:caratheodory}
+Let \(\mathcal{F}\subset\mathbb{R}^{\mathcal{T}}\) be a polytope and \(u\in\mathcal{F}\), where $|\mathcal{T}| = T$.  Then there exist \(T+1\) vertices \(v^1,\dots,v^{T+1}\in\mathcal{V}_{\mathcal{F}}\) and non-negative weights \(\lambda_1,\dots,\lambda_{T+1}\) with \(\sum_{j=1}^{T+1}\lambda^j=1\) such that $u \;=\;\sum_{j=1}^{T+1}\lambda^j\,v^j$.
+\end{theorem}
+\noindent
+This provides us with a method of expressing any point in $\mathcal{F}_\mathcal{N}$ in terms of, at most, $T+1$ of its vertices.
+\begin{corollary}[Vertex Decomposition]\cite[Corollary 2.2]{Fukuda2004FromPolytopes}\label{thm:fukuda}
+Let \(\mathcal{F}_{\mathcal{N}}=\sum_{i\in \mathcal{N}}\mathcal{F}_i\).  A point \(v\in\mathcal{F}_{\mathcal{N}}\) is a vertex of \(\mathcal{F}_{\mathcal{N}}\) if and only if there exists a permutation \(\pi\in\mathrm{Sym}(\Tilde{\mathcal{T}})\) such that $ v \;=\;\sum_{i=1}^N v_i^\pi,$ where \(v_i^\pi\) is the unique vertex of \(\mathcal{F}_i\) selected by the ordering \(\pi\) (cf.\ \eqref{eq:vertex_set}).
+\end{corollary}
+\noindent
+Essentially this means that all vertices of $\mathcal{F}_\mathcal{N}$ can be decomposed into vertices of the summands that define $\mathcal{F}_\mathcal{N}$. These two results allow us to provide a method of disaggregating $u_\mathcal{N}$ as we show in the following theorem.
+\begin{theorem}[Disaggregation]\label{thm:disaggregation}
+    For all $u_\mathcal{N} \in \mathcal{F}_\mathcal{N}$, there exist $\lambda \in \mathbb{R}^{T + 1}$, and $\Pi = \{\pi_1, ..., \pi_{T+1}\} \subset \mathrm{Sym}(\Tilde{\mathcal{T}})$, such that
+    \begin{equation}
+        u_i = \sum_{j=1}^{T+1} \lambda^j v_i^{\pi_j} \in \mathcal{F}_i \quad \textrm{and} \quad
+        u_\mathcal{N} = \sum_i^N u_i.
+    \end{equation}
+\end{theorem}
+\noindent
+The existence of $\lambda$ and $\Pi$ follows from Theorem \ref{thm:caratheodory} and the decomposition among the $\mathcal{F}_i$ follows from Corollary \ref{thm:fukuda}, a formal proof is presented in the Appendix.
+Solving the optimization problems from \eqref{eq:general_prob} described in the previous section will give an optimal solution in the form $u_{\mathcal{N}}^* = \sum_{j=1}^{T+1} \lambda^j v^{\pi_j}$. Using $\lambda$ and $\Pi$ we can immediately apply Theorem~\ref{thm:disaggregation} for the disaggregation process.

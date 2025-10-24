@@ -1,0 +1,77 @@
+\section{Optimization}\label{sec:optimization}
+With an exact representation of the aggregate flexibility of a population of DERs derived in the previous section, we now focus on optimizing over this set. From Theorem \ref{thm:agg_flex_set} we are given a representation of the aggregate flexibility set as the g-polymatroid $\mathcal{F}(\Xi_N) = \mathcal{Q}(p, b)$, defined by $2^{T+1}$ hyperplanes. For practical values of $T$ explicitly representing all constraints of $\mathcal{Q}(p, b)$ is infeasible. However, as we shall show in this section optimizing over the sets is indeed feasible.
+In particular we consider how to solve general problems of the form
+\begin{equation}\label{eq:general_prob}
+    \begin{aligned}
+        & \underset{}{\text{minimize}}
+        & & f(u) \\
+        & \text{subject to}
+        & & u \in \mathcal{Q}(p,b),  \quad 
+        %\ & & & 
+        Cu \leq d.
+    \end{aligned}
+\end{equation}
+We present this formulation in a general form, as it can be used to model a broad class of optimization problems relevant to an aggregator. To solve the linear and non-linear variants of \eqref{eq:general_prob} we can apply Dantzig-Wolfe or Frank-Wolfe decomposition \cite{Dantzig1960DecompositionPrograms} \cite{Frank1956AnProgramming}. However, the computational efficiency of these methods relies on the existence of fast and scalable algorithms for solving linear programs over $\mathcal{Q}(p,b)$, i.e. solving:
+
+\begin{equation}\label{eq:lp_g_polymatroid}
+    \underset{}{\text{minimize}} \;\;  c^Tu \quad
+    \text{subject to} \quad u \in \mathcal{Q}(p,b). 
+\end{equation}
+Conveniently, g-polymatroids provide an efficient method of solving this class of problems, so the rest of this section is concerned with solving problems of the form of \eqref{eq:lp_g_polymatroid}.
+
+\subsection{Lifting to Base Polyhedron}
+We first show how one can define $\mathcal{Q}(p,b)$ as a projection of a \textit{base polyhedron}. 
+
+\begin{definition} The \emph{base polyhedron} associated with $b$ is the intersection of the submodular polyhedron $ \mathcal{P}(b)$ and the plane $u(\mathcal{T}) = b(\mathcal{T})$:
+\begin{equation*}
+    \mathcal{B}(b) := \left\{ u \in  \mathbb{R}^{\mathcal{T}} \mid u(A) \leq b(A) \;\; \forall A \subseteq \mathcal{T}, u(\mathcal{T}) = b(\mathcal{T})\right\}.
+\end{equation*} 
+\end{definition}
+To recast $\mathcal{Q}(p,b)$ as a base polyhedra, we extend the ground set $\mathcal{T}$ with a new element $\Tilde{t}$, such that $\Tilde{\mathcal{T}} := \mathcal{T} + \Tilde{t}$. 
+
+\begin{theorem}[Projection]\label{thm:projection}\cite[Theorem 14.2.4]{Frank2011ConnectionsOptimization} 
+$\mathcal{Q}(b,p)$ is the projection of $\mathcal{B}(\Tilde{b})$ along $\Tilde{t}$, where 
+\begin{equation*}
+        \Tilde{b}(A) := 
+        \begin{cases}
+            b(A)                    & A \subseteq \mathcal{T}\\
+            -p(\mathcal{T} \setminus A)     & \Tilde{t} \in A.
+        \end{cases}
+\end{equation*}
+\end{theorem}
+Alternatively put, if $\Tilde{u} \in \mathbb{R}^{\Tilde{\mathcal{T}}}$ is feasible in $\mathcal{B}(\Tilde{b})$ then its linear projection, $u \in \mathbb{R}^\mathcal{T}$, along $\Tilde{t}$, obtained by omitting $\Tilde{u}(\Tilde{t})$, will also be feasible in $\mathcal{Q}(p,b)$. 
+
+\subsection{A Greedy Algorithm}\label{subsection:greedy}
+Using Theorem \ref{thm:projection} the problem in \eqref{eq:lp_g_polymatroid} can be restated as a linear optimization over a submodular base polyhedron:
+\begin{equation}\label{eq:lp_base}
+    \underset{}{\text{minimize}} \;\; \Tilde{c}^T \Tilde{u}, \quad
+    \text{subject to} \quad \Tilde{u} \in \mathcal{B}(\Tilde{b}), 
+\end{equation}
+with the cost vector extended by $\Tilde{c}(\Tilde{t}) = 0$ and $\Tilde{c}(t) = c(t) \; \forall t \in \mathcal{T}$.
+A fundamental result in submodular optimization states that linear programs over a submodular base polyhedron admit a greedy solution procedure \cite{Fujishige2005SubmodularOptimization}. For completeness we outline this greedy procedure below. 
+
+Consider the symmetric group $\mathrm{Sym}(\Tilde{\mathcal{T}})$, which is the group of all permutations of the set $\Tilde{\mathcal{T}}$. Let $\pi$ be the permutation in $\mathrm{Sym}(\Tilde{\mathcal{T}})$ that arranges the components of $\Tilde{c}$ in non-decreasing order, i.e.,
+\begin{equation}\label{eq:cost_order}
+    \Tilde{c}(\pi(1)) \leq \Tilde{c}(\pi(2)) \leq ... \leq \Tilde{c}(\pi(T+1)). 
+\end{equation}
+% Essentially, $\pi$ sorts $c}$ and can be computed with complexity $\mathcal{O}(T\;log(T)$. 
+For $t \in \{0, 1,..., T + 1\}$, define $S_t := \{\pi(1), ..., \pi(t)\}$ as the set of the first $t$ elements of $\pi$. By definition $S_0 = \emptyset$ and $S_{\Tilde{\mathcal{T}}} = \Tilde{\mathcal{T}}$. 
+Now we construct $\Tilde{u}^* \in \mathbb{R}^{\Tilde{\mathcal{T}}}$ as follows:
+\begin{equation}
+    \Tilde{u}^*(t) = \Tilde{b}(S_t) - \Tilde{b}(S_{t-1}) \quad \forall \; t \in \Tilde{\mathcal{T}}.
+\end{equation}
+
+
+\begin{theorem}[Greedy Algorithm]\label{thm:greedy_alg}\cite[Theorem 14.5.2]{Frank2011ConnectionsOptimization}
+    $\Tilde{u}^*$ is in the base polyhedron $\mathcal{B}(\Tilde{b})$ and an optimal solution to \eqref{eq:lp_base}.
+\end{theorem}
+\begin{remark}   
+Note that constructing \(\tilde u^*\) via the greedy algorithm requires exactly \(T+1\) evaluations of the submodular function \(\tilde b\), one for each marginal increment \(\tilde b(S_t)-\tilde b(S_{t-1})\).  Because these evaluations are mutually independent, they can be distributed and executed in parallel, so that the overall wall‐clock time is dominated by a single call to \(\tilde b\) plus the \(O(T\log T)\) cost of sorting the entries of \(\tilde c\).  Once \(\tilde u^*\) is obtained, the optimal decision \(u^*\) for the original g-polymatroid LP \eqref{eq:lp_g_polymatroid} follows immediately by discarding the auxiliary component \(\tilde u^*(\tilde t)\).  Embedding this within Dantzig–Wolfe or Frank–Wolfe decomposition schemes then enables efficient solving of both linear and nonlinear variants of the general aggregator problems of \eqref{eq:general_prob}, even for large time horizons.  
+\end{remark}
+
+We conclude this section by describing how to label the vertices of $\mathcal{B}(\Tilde{b})$, and by extension $\mathcal{Q}(p,b)$. This labeling will become relevant for the disaggregation process described in the following section. In the greedy algorithm, we select the permutation $\pi \in \mathrm{Sym}(\Tilde{\mathcal{T}})$ that arranges elements of $\Tilde{c}$ in non-decreasing order. This particular permutation uniquely determines the vertex of $\mathcal{B}(\Tilde{b})$ that correspond to the optimal solution of \eqref{eq:lp_base}. Consequently, there is a surjection between elements of  $\mathrm{Sym}(\Tilde{\mathcal{T}})$ and the vertices of $\mathcal{B}(\Tilde{b})$, and hence $\mathcal{Q}(p,b)$. Therefore, we can label the vertices of $\mathcal{Q}(p,b)$, denoted $ \mathcal{V}_{\mathcal{Q}(p,b)}$, with elements of $\mathrm{Sym}(\Tilde{\mathcal{T}})$: 
+\begin{equation}\label{eq:vertex_set}
+    \mathcal{V}_{\mathcal{Q}(p,b)}  = \left\{ v^\pi | \pi \in \mathrm{Sym}(\Tilde{\mathcal{T}}) \right\}.
+\end{equation}
+This is possible because the normal fan of submodular base polyhedra is the braid fan. This statement is related to the comments made in Remark \ref{rem:genpolyedges}. A detailed discussion of this is beyond the scope of this paper; however, interested readers are referred to \cite{Postnikov2009PermutohedraBeyond} for an exposition of this.
+
