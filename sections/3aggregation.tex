@@ -216,11 +216,11 @@ where
   \overline v_{\,a,d}(t)=\sum_{i\in\mathcal{N}_{a,d}} \overline v_i(t).
 \]
 These super- and submodular functions define the \textit{regular permutahedron} \cite{Postnikov2009PermutohedraBeyond}. From this, we recover the characterisation of the aggregate flexibility set as a permutahedron, as derived in \cite{Mukhi2023AnVehicles} and \cite{Panda2024EfficientVehicles}. By summing the super- and submodular functions across all arrival and departure intervals, we obtain the fleet-wide super- and submodular functions as:
-\begin{equation*}\label{eq:V1G_aggregate_permutahedra}
+\begin{equation}\label{eq:V1G_aggregate_permutahedra}
     p(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \underline v_{a,d}(t)
     \quad
     b(A) = \sum_{a < d}\sum_{t=1}^{\lvert A\cap [a,d]|} \overline v_{a,d}(t).
-\end{equation*}
+\end{equation}
 This yields a representation of the  aggregate flexibility that is independent of the number of devices in the population. As a result, even for extremely large device fleets, the aggregate flexibility can be represented compactly.
 
 \begin{exmp}
